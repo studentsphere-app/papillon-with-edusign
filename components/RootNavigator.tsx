@@ -139,10 +139,10 @@ function RootNavigatorContent() {
         <Stack.Screen
           name="(modals)/attendance/sign"
           options={{
-            presentation: "formSheet",
-            sheetGrabberVisible: true,
-            sheetAllowedDetents: [0.5],
-            sheetExpandsWhenScrolledToEdge: false,
+            presentation: "fullScreenModal",
+            headerShown: true,
+            headerBackVisible: true,
+            headerBackButtonDisplayMode: "minimal",
             headerLargeTitle: false,
             headerTransparent: true,
             headerTitle: t("Sign_Attendance_Validate"),

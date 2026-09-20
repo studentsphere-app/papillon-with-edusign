@@ -168,8 +168,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   canvasCard: {
-    height: 135,
     width: "100%",
+    aspectRatio: 400 / 200,
     borderRadius: 14,
     borderWidth: 1.5,
     overflow: "hidden",

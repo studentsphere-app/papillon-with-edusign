@@ -110,10 +110,13 @@ export default function AttendanceSign() {
   return (
     <View
       style={{
+        flex: 1,
         paddingTop: headerHeight + 8,
         paddingBottom: Math.max(insets.bottom, 20),
         paddingHorizontal: 20,
         alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
       }}
     >
       <Stack width="100%" gap={8} hAlign="center" style={{ maxWidth: 600 }}>
@@ -123,6 +126,7 @@ export default function AttendanceSign() {
           onSign={handleSignatureSubmit}
           disabled={submitting}
           onChangeHasDrawn={setHasSigned}
+          style={{ marginBottom: 16 }}
         />
 
         {/* Action Buttons */}
