@@ -66,6 +66,10 @@ export default function OnboardingLayout() {
           options={{ headerShown: false, title: "", presentation: "formSheet" }}
         />
         <Stack.Screen
+          name="services/edusign"
+          options={{ headerShown: false, title: "", presentation: "formSheet" }}
+        />
+        <Stack.Screen
           name="services/ed"
           options={{ headerShown: false, title: "", presentation: "formSheet" }}
         />

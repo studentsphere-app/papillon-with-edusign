@@ -14,15 +14,13 @@ export default {
     platforms: ["ios", "android"],
     userInterfaceStyle: "automatic",
     ios: {
-      appleTeamId: "7RXNP6V83P",
+      appleTeamId: "C87L9NX8TU",
       appStoreUrl:
         "https://apps.apple.com/us/app/papillon-lappli-scolaire/id6477761165",
       bundleIdentifier: "xyz.getpapillon.ios",
-      associatedDomains: ["applinks:getpapillon.xyz"],
       icon: "./assets/app.icon",
       minimumOSVersion: "17.6",
       infoPlist: {
-        AppGroupIdentifier: "group.xyz.getpapillon",
         CFBundleURLTypes: [
           {
             CFBundleURLSchemes: ["papillon", "izly", "skoapp-prod"],
@@ -71,12 +69,6 @@ export default {
         ],
         CADisableMinimumFrameDurationOnPhone: true,
         LSApplicationQueriesSchemes: ["maps"],
-      },
-      entitlements: {
-        "com.apple.security.application-groups": [
-          "group.xyz.getpapillon",
-          "group.xyz.getpapillon.ios",
-        ],
       },
       supportsTablet: true,
       config: {
@@ -166,7 +158,7 @@ export default {
         {
           "bundleIdentifier": "xyz.getpapillon.ios.widgets",
           "groupIdentifier": "group.xyz.getpapillon.ios",
-          "enablePushNotifications": true,
+          "enablePushNotifications": false,
           "widgets": [
             {
               "name": "Calendar",
