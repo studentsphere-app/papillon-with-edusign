@@ -657,11 +657,13 @@ export class AccountManager {
     try {
       if (options?.clientId !== undefined) {
         const client = this.clients[options.clientId];
+        // Le cache peut référencer un compte qui n'est plus chargé : on lève pour
+        // que le catch ci-dessous bascule sur le fallback.
         if (!client) {
-          error("Client ID missing");
+          throw new Error("Client ID missing: " + options.clientId);
         }
         if (!client.capabilities.includes(capability)) {
-          error(
+          throw new Error(
             "Capability " +
             capability +
             " not supported by client " +

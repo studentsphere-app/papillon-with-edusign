@@ -20,6 +20,7 @@ import { fetchEdusignHomeworks } from "./homework";
 import { Period } from "../shared/grade";
 import { LinksignClient } from "@studentsphere/linksign";
 import * as Device from "expo-device";
+import { syncSignReminders } from "@/utils/notifications/signReminders";
 
 export class Edusign implements SchoolServicePlugin {
   displayName = "Edusign";
@@ -50,7 +51,13 @@ export class Edusign implements SchoolServicePlugin {
     date: Date
   ): Promise<CourseDay[]> {
     if (this.session) {
-      return fetchEdusignTimetable(this.session, this.accountId, weekNumber);
+      const days = await fetchEdusignTimetable(
+        this.session,
+        this.accountId,
+        weekNumber
+      );
+      syncSignReminders(days.flatMap(day => day.courses));
+      return days;
     }
     throw error(
       "Session or account is not valid",

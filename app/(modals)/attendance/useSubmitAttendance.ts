@@ -7,6 +7,7 @@ import { updateCourseAttendance } from "@/database/useTimetable";
 import { getManager } from "@/services/shared";
 import { Course } from "@/services/shared/timetable";
 import { useAlert } from "@/ui/components/AlertProvider";
+import { cancelSignReminder } from "@/utils/notifications/signReminders";
 import { useState } from "react";
 import { StudentAlreadyPresentError } from "@studentsphere/linksign";
 
@@ -49,6 +50,7 @@ export function useSubmitAttendance() {
       );
 
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      cancelSignReminder(course);
       await updateCourseAttendance(course.id, {
         isSigned: true,
         isStudentPresent: true,
@@ -71,6 +73,7 @@ export function useSubmitAttendance() {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
 
       if (err instanceof StudentAlreadyPresentError) {
+        cancelSignReminder(course);
         await updateCourseAttendance(course.id, {
           isSigned: true,
           isStudentPresent: true,

@@ -35,6 +35,7 @@ import NewButton from "@/ui/new/Button";
 import PapillonTextInput from "@/ui/new/TextInput";
 import { getSubjectColor } from "@/utils/subjects/colors";
 import { getSubjectEmoji } from "@/utils/subjects/emoji";
+import { cancelSignReminder } from "@/utils/notifications/signReminders";
 
 import SignaturePad, { SignaturePadRef } from "./SignaturePad";
 
@@ -127,6 +128,7 @@ export default function AttendanceSignView({
       );
 
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      cancelSignReminder(course);
       await updateCourseAttendance(course.id, {
         isSigned: true,
         isStudentPresent: true,
@@ -151,6 +153,7 @@ export default function AttendanceSignView({
         errorMessage.includes("already") ||
         errorMessage.includes("StudentAlreadyPresent")
       ) {
+        cancelSignReminder(course);
         await updateCourseAttendance(course.id, {
           isSigned: true,
           isStudentPresent: true,

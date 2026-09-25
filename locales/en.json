@@ -265,6 +265,8 @@
   "Sign_Attendance_Continue": "Continue",
   "Sign_Attendance_Validate": "Confirm signature",
   "Sign_Attendance_Success": "Attendance successfully registered!",
+  "Sign_Reminder_Title": "Don't forget to sign!",
+  "Sign_Reminder_Body": "{{subject}} just ended and you haven't signed in yet.",
   "Sign_Attendance_Error": "Attendance registration failed",
   "Sign_Attendance_Camera_Permission": "Camera permission is required to scan the attendance QR code.",
   "Sign_Attendance_Grant_Permission": "Allow camera",

@@ -266,6 +266,8 @@
   "Sign_Attendance_Continue": "Continuer",
   "Sign_Attendance_Validate": "Valider l'émargement",
   "Sign_Attendance_Success": "Émargement enregistré avec succès !",
+  "Sign_Reminder_Title": "N'oublie pas de signer !",
+  "Sign_Reminder_Body": "Le cours {{subject}} vient de se terminer et tu n'as pas encore émargé.",
   "Sign_Attendance_Error": "Échec de l'émargement",
   "Sign_Attendance_Camera_Permission": "L'accès à l'appareil photo est requis pour scanner le QR-Code.",
   "Sign_Attendance_Grant_Permission": "Autoriser l'appareil photo",

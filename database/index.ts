@@ -26,7 +26,7 @@ import CanteenHistoryItem from './models/CanteenHistory';
 import Kid from './models/Kid';
 import { mySchema } from './schema';
 
-const appGroupId = 'group.xyz.getpapillon.ios';
+const appGroupId = 'group.com.raphaeltiphonet.papillon';
 const databaseFilename = 'watermelon.db';
 
 function resolveSharedDbName(): string | undefined {

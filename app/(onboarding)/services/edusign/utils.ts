@@ -11,14 +11,13 @@ export async function completeEdusignLogin({
   localDeviceId,
   selectedSchoolName,
   authSession,
-  navigation,
 }: {
   token: string;
   refreshToken?: string;
   localDeviceId: string;
   selectedSchoolName?: string;
   authSession?: any;
-  navigation: any;
+  navigation?: unknown;
 }) {
   let profile = authSession;
   if (!profile || !profile.FIRSTNAME) {
@@ -60,15 +59,8 @@ export async function completeEdusignLogin({
   const newDisabledTabs = Array.from(new Set([...disabledTabs, "news", "grades"]));
   settingsStore.mutateProperty("personalization", { disabledTabs: newDisabledTabs });
 
-  const parent = navigation?.getParent?.();
-  if (parent) {
-    parent.goBack();
-    const parentsParent = parent.getParent?.();
-    if (parentsParent) {
-      parentsParent.goBack();
-    }
+  if (router.canDismiss()) {
+    router.dismissAll();
   }
-  router.back();
-  router.dismissAll();
   router.replace("/" as any);
 }

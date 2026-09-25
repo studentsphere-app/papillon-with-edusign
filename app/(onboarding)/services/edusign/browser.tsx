@@ -22,6 +22,26 @@ import OnboardingWebView from "../../components/OnboardingWebView";
 import { useAlert } from "@/ui/components/AlertProvider";
 import { completeEdusignLogin } from "./utils";
 
+const ANDROID_USER_AGENT =
+  "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36";
+
+// Le prop userAgent ne change que l'en-tête HTTP et navigator.userAgent :
+// WKWebView expose toujours platform/vendor iOS aux scripts de la page.
+const SPOOF_ANDROID_NAVIGATOR = `
+  (function() {
+    var overrides = { platform: 'Linux armv8l', vendor: 'Google Inc.' };
+    Object.keys(overrides).forEach(function(key) {
+      try {
+        Object.defineProperty(Navigator.prototype, key, {
+          get: function() { return overrides[key]; },
+          configurable: true,
+        });
+      } catch (e) {}
+    });
+  })();
+  true;
+`;
+
 export default function EdusignBrowser() {
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -56,7 +76,8 @@ export default function EdusignBrowser() {
       const queryIndex = url.indexOf("?");
       if (queryIndex !== -1) {
         const queryParams = new URLSearchParams(url.substring(queryIndex));
-        const code = queryParams.get("code");
+        // Le retour SAML (api.edusign.fr/integrations/saml/connection) utilise `auth_code`
+        const code = queryParams.get("code") || queryParams.get("auth_code");
         const ticket = queryParams.get("ticket");
 
         if (code || ticket) {
@@ -217,7 +238,9 @@ export default function EdusignBrowser() {
         source={{ uri: targetUrl }}
         webViewRef={webViewRef}
         incognito={true}
-        userAgent="Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36"
+        userAgent={ANDROID_USER_AGENT}
+        injectedJavaScriptBeforeContentLoaded={SPOOF_ANDROID_NAVIGATOR}
+        injectedJavaScriptBeforeContentLoadedForMainFrameOnly={false}
         onShouldStartLoadWithRequest={(request) => {
           const { url } = request;
           if (url.startsWith("https://edusign.app/student")) {

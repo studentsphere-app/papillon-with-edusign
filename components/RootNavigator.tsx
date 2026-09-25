@@ -1,7 +1,7 @@
 import { useTheme } from "expo-router/react-navigation";
 import { Stack } from "expo-router";
 import { t } from "i18next";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Platform, StatusBar, View } from "react-native";
 
 import {
@@ -17,11 +17,14 @@ import { runsIOS26 } from "@/ui/utils/IsLiquidGlass";
 import { useScreenOptions } from "@/utils/theme/ScreenOptions";
 import { useAndroidHeaderProps } from "./AndroidHeaderBackground";
 import MainTabErrorBoundary from "@/ui/components/MainTabErrorBoundary";
+import { setupSignReminderHandlers } from "@/utils/notifications/signReminders";
 
 function RootNavigatorContent() {
   const theme = useTheme();
   const androidHeaderProps = useAndroidHeaderProps();
   const screenOptions = useScreenOptions();
+
+  useEffect(() => setupSignReminderHandlers(), []);
 
   // Memoize combined screen options to prevent object recreation
   const stackScreenOptions = useMemo(
@@ -100,9 +103,7 @@ function RootNavigatorContent() {
             presentation: "formSheet",
             sheetGrabberVisible: true,
             sheetAllowedDetents: "fitToContents",
-            headerLargeTitle: false,
-            headerTransparent: true,
-            headerTitle: t("Sign_Attendance_Title"),
+            headerShown: false,
             contentStyle: {
               backgroundColor: theme.colors.card,
             },

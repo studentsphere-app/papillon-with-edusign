@@ -1,7 +1,7 @@
 import * as Haptics from "expo-haptics";
 import { router, useLocalSearchParams } from "expo-router";
 import { useHeaderHeight, useTheme } from "expo-router/react-navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -12,8 +12,6 @@ import SignaturePad, {
   SignaturePadRef,
 } from "@/components/attendance/SignaturePad";
 import { setTempSignature } from "./signatureStore";
-import { getCourseById } from "@/database/useTimetable";
-import { Course } from "@/services/shared/timetable";
 import ActivityIndicator from "@/ui/components/ActivityIndicator";
 import { useAlert } from "@/ui/components/AlertProvider";
 import Icon from "@/ui/components/Icon";
@@ -35,27 +33,9 @@ export default function AttendanceSign() {
   const { t } = useTranslation();
   const dangerColor = (colors as any).danger ?? "#DC1400";
 
-  const [course, setCourse] = useState<Course | null>(null);
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [hasSigned, setHasSigned] = useState(false);
   const signaturePadRef = useRef<SignaturePadRef>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    if (id) {
-      getCourseById(id)
-        .then(result => {
-          if (!cancelled) setCourse(result || null);
-        })
-        .finally(() => {
-          if (!cancelled) setLoading(false);
-        });
-    }
-    return () => {
-      cancelled = true;
-    };
-  }, [id]);
 
   const handleClose = () => {
     if (id) {
@@ -91,22 +71,6 @@ export default function AttendanceSign() {
     }
   };
 
-  if (loading || !course) {
-    return (
-      <View
-        style={{
-          paddingTop: headerHeight + 12,
-          paddingBottom: Math.max(insets.bottom, 20),
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: 120,
-        }}
-      >
-        <ActivityIndicator color={String(colors.primary)} />
-      </View>
-    );
-  }
-
   return (
     <View
       style={{
@@ -115,21 +79,20 @@ export default function AttendanceSign() {
         paddingBottom: Math.max(insets.bottom, 20),
         paddingHorizontal: 20,
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "space-between",
         overflow: "hidden",
       }}
     >
-      <Stack width="100%" gap={8} hAlign="center" style={{ maxWidth: 600 }}>
-        {/* Signature Pad */}
+      <View style={{ flex: 1, width: "100%", maxWidth: 600, justifyContent: "center" }}>
         <SignaturePad
           ref={signaturePadRef}
           onSign={handleSignatureSubmit}
           disabled={submitting}
           onChangeHasDrawn={setHasSigned}
-          style={{ marginBottom: 16 }}
         />
+      </View>
 
-        {/* Action Buttons */}
+      <Stack width="100%" gap={8} hAlign="center" style={{ maxWidth: 600 }}>
         <Button
           fullWidth
           color={String(colors.primary)}
