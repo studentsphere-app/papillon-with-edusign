@@ -9,6 +9,7 @@ import Stack from '@/ui/components/Stack';
 import Button from '@/ui/new/Button';
 import TextInput from '@/ui/new/TextInput';
 import Typography from '@/ui/new/Typography';
+import { useSafeHorizontalPadding } from "@/ui/hooks/useSafeHorizontalPadding";
 
 interface LoginViewProps {
   color: string;
@@ -57,6 +58,7 @@ export default function LoginView({
 }: LoginViewProps) {
   const { colors } = useTheme();
   const { t } = useTranslation();
+  const safePadding = useSafeHorizontalPadding(20);
 
   const [fieldValues, setFieldValues] = React.useState<{ [key: string]: string }>({});
 
@@ -115,6 +117,7 @@ export default function LoginView({
         alignItems: "center",
         padding: 20,
         paddingTop: showHeader ? 20 : 0,
+        ...safePadding,
       }}
     >
       {showHeader && (
